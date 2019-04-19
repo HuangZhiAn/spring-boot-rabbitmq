@@ -4,22 +4,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>获取输入数据</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script type="text/javascript">
         function submint(){
-            console.log(getUrlParam('userId'));
+            var data = {"qa":{}};
+            //用户ID
+            var userId = getUrlParam('userId');
+            //问卷ID，表示每份问卷
+            var pId = getUrlParam('pId');
+
+            data['userId'] = userId;
+            data['pId'] = pId;
             var inputs  = document.getElementsByTagName("input");
-            console.log(inputs);
-            var data = {};
+
             for(var i = 0;i < inputs.length;i++){
                 if(inputs[i].checked){
-                    if(data[inputs[i].name] === undefined){
-                        data[inputs[i].name]=inputs[i].value;
+                    if(data["qa"][inputs[i].name] === undefined){
+                        data["qa"][inputs[i].name]=inputs[i].value;
                     }else{
-                        data[inputs[i].name]=data[inputs[i].name]+inputs[i].value;
+                        data["qa"][inputs[i].name]=data["qa"][inputs[i].name]+','+inputs[i].value;
                     }
                 }
             }
             console.log(data);
+            $.ajax({
+                data:JSON.stringify(data),
+                contentType:"application/json;charset=utf-8",
+                type:"POST",
+                url:"/saveData",
+                async:false
+            });
+
         }
 
         function getUrlParam(paraName) {
