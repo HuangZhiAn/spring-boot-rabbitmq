@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>获取输入数据</title>
+    <script type="text/javascript">
+        function submint(){
+            console.log(getUrlParam('userId'));
+            var inputs  = document.getElementsByTagName("input");
+            console.log(inputs);
+            var data = {};
+            for(var i = 0;i < inputs.length;i++){
+                if(inputs[i].checked){
+                    if(data[inputs[i].name] === undefined){
+                        data[inputs[i].name]=inputs[i].value;
+                    }else{
+                        data[inputs[i].name]=data[inputs[i].name]+inputs[i].value;
+                    }
+                }
+            }
+            console.log(data);
+        }
+
+        function getUrlParam(paraName) {
+            var url = document.location.toString();
+            var arrObj = url.split("?");
+
+            if (arrObj.length > 1) {
+                var arrPara = arrObj[1].split("&");
+                var arr;
+
+                for (var i = 0; i < arrPara.length; i++) {
+                    arr = arrPara[i].split("=");
+
+                    if (arr != null && arr[0] == paraName) {
+                        return arr[1];
+                    }
+                }
+                return "";
+            }
+            else {
+                return "";
+            }
+        }
+    </script>
+</head>
+<body>
+<ul>
+    <li>
+        <input type="radio" name="问题1" value="单选框1" />
+        <input type="radio" name="问题1" value="单选框1" />
+        <input type="radio" name="问题1" value="单选框1" />
+    </li>
+    <li>
+        <input type="checkbox" name="问题2" value="复选框1"/>
+        <input type="checkbox" name="问题2" value="复选框1"/>
+        <input type="checkbox" name="问题2" value="复选框1"/>
+    </li>
+    <li>
+        <input type="text" checked="checked" name="问题3" value="文本框"/>
+    </li>
+</ul>
+<button type="button" onclick="submint()">点我!</button>
+</body>
+</html>
